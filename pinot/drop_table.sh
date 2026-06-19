@@ -7,6 +7,6 @@ echo "Deleting schema bluesky"
 curl -X DELETE "http://localhost:9000/schemas/bluesky"
 
 echo "Cleaning up segment and data directories"
-rm -rf ./data/
+rm -rf "$(pwd)/data/"
 
 ./stop.sh
