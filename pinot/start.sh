@@ -5,10 +5,12 @@ PINOT_HOME="apache-pinot-${PINOT_VERSION}-bin"
 PINOT_BIN="${PINOT_HOME}/bin/pinot-admin.sh"
 
 DATA_DIR="$(pwd)/data"
-mkdir -p "${DATA_DIR}/controller" "${DATA_DIR}/server/segments"
+PID_DIR="$(pwd)/pids"
+mkdir -p "${DATA_DIR}/controller" "${DATA_DIR}/server/segments" "${PID_DIR}"
 
 echo "Starting Zookeeper"
 JAVA_OPTS="-Xms2g -Xmx2g" ${PINOT_BIN} StartZookeeper -zkPort 2181 &
+echo $! > "${PID_DIR}/zookeeper.pid"
 sleep 5
 
 echo "Starting Controller"
@@ -16,6 +18,7 @@ JAVA_OPTS="-Xms2g -Xmx2g" ${PINOT_BIN} StartController \
     -zkAddress localhost:2181 \
     -controllerPort 9000 \
     -dataDir "${DATA_DIR}/controller" &
+echo $! > "${PID_DIR}/controller.pid"
 
 echo "Waiting for Controller to be ready..."
 for i in $(seq 1 60); do
@@ -31,6 +34,7 @@ echo "Starting Broker"
 JAVA_OPTS="-Xms4g -Xmx4g" ${PINOT_BIN} StartBroker \
     -zkAddress localhost:2181 \
     -brokerPort 8099 &
+echo $! > "${PID_DIR}/broker.pid"
 
 echo "Starting Server"
 JAVA_OPTS="-Xms48g -Xmx48g -XX:MaxDirectMemorySize=48g" ${PINOT_BIN} StartServer \
@@ -39,6 +43,7 @@ JAVA_OPTS="-Xms48g -Xmx48g -XX:MaxDirectMemorySize=48g" ${PINOT_BIN} StartServer
     -serverAdminPort 8097 \
     -dataDir "${DATA_DIR}/server" \
     -segmentDir "${DATA_DIR}/server/segments" &
+echo $! > "${PID_DIR}/server.pid"
 
 echo "Waiting for Broker to be ready..."
 for i in $(seq 1 60); do
