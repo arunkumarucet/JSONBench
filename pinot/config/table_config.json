@@ -1,0 +1,21 @@
+{
+  "tableName": "bluesky",
+  "tableType": "OFFLINE",
+  "segmentsConfig": {
+    "timeColumnName": "time_us",
+    "timeType": "MICROSECONDS",
+    "replication": "1",
+    "schemaName": "bluesky"
+  },
+  "tenants": {
+    "broker": "DefaultTenant",
+    "server": "DefaultTenant"
+  },
+  "tableIndexConfig": {
+    "loadMode": "MMAP",
+    "jsonIndexColumns": ["commit"]
+  },
+  "metadata": {
+    "customConfigs": {}
+  }
+}

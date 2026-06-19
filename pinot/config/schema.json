@@ -1,0 +1,17 @@
+{
+  "schemaName": "bluesky",
+  "dimensionFieldSpecs": [
+    {"name": "did",    "dataType": "STRING"},
+    {"name": "kind",   "dataType": "STRING"},
+    {"name": "commit", "dataType": "JSON"}
+  ],
+  "metricFieldSpecs": [],
+  "dateTimeFieldSpecs": [
+    {
+      "name": "time_us",
+      "dataType": "LONG",
+      "format": "1:MICROSECONDS:EPOCH",
+      "granularity": "1:MICROSECONDS"
+    }
+  ]
+}
