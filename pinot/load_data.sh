@@ -59,6 +59,10 @@ tableSpec:
 
 pinotClusterSpecs:
   - controllerURI: 'http://localhost:9000'
+
+pushJobSpec:
+  pushAttempts: 2
+  pushRetryIntervalMillis: 1000
 EOF
 
 JAVA_OPTS="-Xms4g -Xmx16g" ${PINOT_BIN} LaunchDataIngestionJob \
