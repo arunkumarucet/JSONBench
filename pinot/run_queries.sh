@@ -22,7 +22,7 @@ cat queries.sql | while read -r query; do
         START=$(date +%s%N)
         curl -s -X POST "$BROKER_URL" \
             -H 'Content-Type: application/json' \
-            -d "{\"sql\": \"${query}\"}" > /tmp/pinot_query_result.json
+            -d "{\"sql\": \"${query}\", \"queryOptions\": \"timeoutMs=120000\"}" > /tmp/pinot_query_result.json
         END=$(date +%s%N)
 
         ELAPSED=$(echo "scale=3; ($END - $START) / 1000000000" | bc)

@@ -13,7 +13,8 @@
   },
   "tableIndexConfig": {
     "loadMode": "MMAP",
-    "jsonIndexColumns": ["commit"]
+    "jsonIndexColumns": ["commit"],
+    "invertedIndexColumns": ["kind"]
   },
   "metadata": {
     "customConfigs": {}
