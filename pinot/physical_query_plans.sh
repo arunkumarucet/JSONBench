@@ -9,9 +9,10 @@ TABLE_NAME="$1"
 
 cat queries.sql | while read -r query; do
     echo "Query: $query"
+    payload=$(python3 -c "import json,sys; print(json.dumps({'sql': 'EXPLAIN PLAN FOR ' + sys.argv[1]}))" "$query")
     curl -s -X POST "http://localhost:8099/query/sql" \
         -H 'Content-Type: application/json' \
-        -d "{\"sql\": \"EXPLAIN PLAN FOR ${query}\"}" \
+        -d "$payload" \
         | python3 -c "
 import sys, json
 d = json.load(sys.stdin)

@@ -26,7 +26,7 @@ cat queries.sql | while read -r query; do
             -d "$payload" > /tmp/pinot_query_result.json
         END=$(date +%s%N)
 
-        ELAPSED=$(echo "scale=3; ($END - $START) / 1000000000" | bc)
+        ELAPSED=$(printf "%.3f" "$(echo "scale=9; ($END - $START) / 1000000000" | bc)")
         ROWS=$(cat /tmp/pinot_query_result.json | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('numRowsResultSet', 0))" 2>/dev/null || echo 0)
         echo "$ELAPSED"
         echo "$ROWS"
