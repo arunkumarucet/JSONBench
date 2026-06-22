@@ -20,9 +20,10 @@ cat queries.sql | while read -r query; do
 
     for i in $(seq 1 $TRIES); do
         START=$(date +%s%N)
+        payload=$(python3 -c "import json,sys; print(json.dumps({'sql': sys.argv[1], 'queryOptions': 'timeoutMs=120000'}))" "$query")
         curl -s -X POST "$BROKER_URL" \
             -H 'Content-Type: application/json' \
-            -d "{\"sql\": \"${query}\", \"queryOptions\": \"timeoutMs=120000\"}" > /tmp/pinot_query_result.json
+            -d "$payload" > /tmp/pinot_query_result.json
         END=$(date +%s%N)
 
         ELAPSED=$(echo "scale=3; ($END - $START) / 1000000000" | bc)
